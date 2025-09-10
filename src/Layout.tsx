@@ -1,9 +1,18 @@
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import SideBar from './components/SideBar';
 import { SearchModal } from './components/SearchModal';
+import { useCurrentUserStore } from './modules/auth/current-user.state';
 
 const Layout = () => {
+
+  const { currentUser } = useCurrentUserStore();
+  // Navigateはページ遷移を行うコンポーネント
+  // replaceはページ遷移を行うときに、前のページを破棄する
+  // toは遷移先のパス
+  if (currentUser == null) return <Navigate replace to="/signin" />;
+
   return (
+
     <div className="h-full flex">
       <SideBar onSearchButtonClicked={() => {}} />
       <main className="flex-1 h-full overflow-y-auto">

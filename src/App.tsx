@@ -4,8 +4,25 @@ import { Home } from "@/pages/Home"
 import NoteDetail from "@/pages/NoteDetail"
 import SignIn from "@/pages/Signin"
 import SignUp from "@/pages/Signup"
+import { useCurrentUserStore } from "./modules/auth/current-user.state"
+import { useEffect, useState } from "react"
+import { authRepository } from "./modules/auth/auth.repository"
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const currentUserStore = useCurrentUserStore();
+
+  useEffect(() => {
+    setSession();
+  }, []);
+
+  const setSession = async () => {
+    const currentUser = await authRepository.getCurrentUser();
+    currentUserStore.set(currentUser);
+    setIsLoading(false);
+  }
+
+  if (isLoading) return <div />;
 
   return (
     <BrowserRouter>
