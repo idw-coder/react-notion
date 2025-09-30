@@ -30,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/:id" element={<NoteDetail />} />
+            <Route path="/notes/:id" element={<NoteDetail />} />
           </Route>
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />

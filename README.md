@@ -21,7 +21,14 @@ https://codic.jp/
 - DeepL 翻訳
 https://www.deepl.com/ja/translator
 
-## memo
+## 備忘
+
+### 講座概要
+
+- React Typescript Supabaseを使用した開発
+- 基本的なCRUD 検索 リアルタイム通信
+- Jotaiを使用したグローバル状態管理
+
 
 - <a href="./docs/named-or-default-export.md">名前付きエクスポート、デフォルトエクスポート</a>
 
