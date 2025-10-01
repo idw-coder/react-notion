@@ -27,6 +27,17 @@ const NoteDetail = () => {
     setIsLoading(false);
   }
 
+  const updateNote = async (
+    id: string,
+    note: { title?: string; content?: string }
+  ) => {
+    const updatedNote = await noteRepository.update(id, note);
+    if (updatedNote == null) return;
+    // TODO: 理解
+    noteStore.set([updatedNote]);
+    return updatedNote;
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (note == null) {
     setIsLoading(false);
@@ -39,7 +50,10 @@ const NoteDetail = () => {
   return (
     <div className="pb-40 pt-20">
       <div className="md:max-w-3xl lg:md-max-w-4xl mx-auto">
-        <TitleInput initialData={note} />
+        <TitleInput 
+          initialData={note} 
+          onTitleChange={(title) => updateNote(id, { title })} 
+        />
       </div>
     </div>
   );

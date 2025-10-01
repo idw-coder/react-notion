@@ -102,7 +102,7 @@ TODO: 理解
 
 - vite.config.tsの修正
 
-- リアクトルーターをインストール
+11. リアクトルーターをインストール
 ```
 npm install react-router-dom react-textarea-autosize
 ```
@@ -111,7 +111,7 @@ npm install react-router-dom react-textarea-autosize
 npm install @supabase/supabase-js@2.47.7
 ```
 
-- Supabaseのセットアップ
+13. Supabaseのセットアップ
 プロジェクト作成
 
 - Supabaseのライブラリのインストール
@@ -120,29 +120,39 @@ npm install @supabase/supabase-js
 ```
 https://supabase.com/docs/reference/javascript/installing
 
-- Supabaseの初期化
+15. Supabaseの初期化
   - Web管理画面のコンソールでSign In / Providers
   - <a href="./src/lib/supabase.ts">supabase.ts</a>を作成
 
-- ユーザー登録APIをコーディング<a href="./src/modules/auth/auth.repository.ts">auth.repository.ts</a>
-- ユーザー登録APIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signup.tsx">Signup.tsx</a>
+16. ユーザー登録APIをコーディング<a href="./src/modules/auth/auth.repository.ts">auth.repository.ts</a>
+
+17. ユーザー登録APIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signup.tsx">Signup.tsx</a>
+
 - 質問 async await
-- ログインAPIをコーディング<a href="./src/modules/auth/auth.repository.ts">auth.repository.ts</a>
 
-- ログインAPIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signin.tsx">Signin.tsx</a>
+18. ログインAPIをコーディング<a href="./src/modules/auth/auth.repository.ts">auth.repository.ts</a>
 
-- ログイン情報をグローバールステートに
+19. ログインAPIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signin.tsx">Signin.tsx</a>
+
+20. ログイン情報をグローバールステートに
   - Jotaiライブラリを導入
 ```
 npm install jotai
 ```
-- <a href="src\modules\auth\current-user.state.ts">current-user.state.ts
+21. <a href="src\modules\auth\current-user.state.ts">current-user.state.ts
 </a>にAtomを定義してグローバルステートを使用できるように
 
 - ユーザー登録時にログイン情報をグローバルステートに追加する処理をコーディング src\Layout.tsx src\pages\Signup.tsx src\pages\Signin.tsx
 
 - src\modules\auth\auth.repository.ts セッションから現在のユーザーにログイン情報を取得してsrc\App.tsxにわたす
 
+38. src\modules\notes\note.repository.tsに特定のIDノートを取得する処理をコーディング
+
+39. src\pages\NoteDetail.tsx components\TitleInput.tsxにノートのタイトルを表示
+
+40. src\components\TitleInput.tsx src\modules\notes\note.repository.ts タイトル更新できるように
+
+41. src\components\TitleInput.tsx src\modules\notes\note.repository.ts タイトル更新できるように
 
 
 ---

@@ -30,5 +30,15 @@ export const noteRepository = {
         .eq('user_id', userId)
         .single();
         return data;
+    },
+    // Noteの更新
+    async update(id: string, note: { title?: string; content?: string }) {
+        const { data } = await supabase
+        .from('notes')
+        .update(note)
+        .eq('id', id)
+        .select()
+        .single();
+        return data;
     }
 }
