@@ -90,6 +90,9 @@ React Routerは、Reactアプリケーションでページ遷移（ルーティ
 
 <img src="./docs/global-state.png" width="500" />
 
+#### Jotaiの使い方
+
+TODO: 理解
 
 ## 手順
 
@@ -129,11 +132,16 @@ https://supabase.com/docs/reference/javascript/installing
 - ログインAPIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signin.tsx">Signin.tsx</a>
 
 - ログイン情報をグローバールステートに
+  - Jotaiライブラリを導入
+```
+npm install jotai
+```
+- <a href="src\modules\auth\current-user.state.ts">current-user.state.ts
+</a>にAtomを定義してグローバルステートを使用できるように
 
+- ユーザー登録時にログイン情報をグローバルステートに追加する処理をコーディング src\Layout.tsx src\pages\Signup.tsx src\pages\Signin.tsx
 
-
-
-
+- src\modules\auth\auth.repository.ts セッションから現在のユーザーにログイン情報を取得してsrc\App.tsxにわたす
 
 
 
