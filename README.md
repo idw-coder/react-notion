@@ -21,18 +21,19 @@ https://codic.jp/
 - DeepL 翻訳
 https://www.deepl.com/ja/translator
 
-## 備忘
 
-### 講座概要
+
+## 講座概要
 
 - React Typescript Supabaseを使用した開発
 - 基本的なCRUD 検索 リアルタイム通信
 - Jotaiを使用したグローバル状態管理
 
+## 備忘メモ
 
-- <a href="./docs/named-or-default-export.md">名前付きエクスポート、デフォルトエクスポート</a>
+### <a href="./docs/named-or-default-export.md">名前付きエクスポート、デフォルトエクスポート</a>
 
-- `index.html` と `src/main.tsx` の **Vite + React + TypeScriptの標準的な構成**
+### `index.html` と `src/main.tsx` の **Vite + React + TypeScriptの標準的な構成**
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': {'primaryTextColor': '#000', 'fontSize': '12px'}}}%%
 flowchart TD
@@ -44,6 +45,50 @@ flowchart TD
     style A fill:#e1f5fe
     style F fill:#c8e6c9
 ```
+### React Router
+
+React Routerは、Reactアプリケーションでページ遷移（ルーティング）を実装するための公式ライブラリです。
+
+**URLとコンポーネントの紐付け
+→リロードせずにURLの変更、表示内容の切り替え**
+
+使用ファイル
+<a href="./src/App.tsx">App.tsx</a>
+
+```js
+  return (
+    <BrowserRouter>
+      <div className="h-full">
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/notes/:id" element={<NoteDetail />} />
+          </Route>
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  )
+```
+
+**\<Route>**
+パスとコンポーネントを紐づける
+```js
+<Route path="パス" element={<コンポーネント />} />
+```
+
+**\<Routes>**
+\<Routes>は複数の\<Route>を囲む親要素
+\<Routes>は現在のURLに最も一致する1つのRouteだけを表示します。
+
+### グローバルステートとローカルステートの違い
+
+ローカルステートはプロップスの数が増え、複雑になってしまう欠点がある
+↓
+グローバルステートで解決（ローカルコンポーネントから外に出すイメージ）
+
+<img src="./docs/global-state.png" width="500" />
 
 
 ## 手順
@@ -62,6 +107,35 @@ npm install react-router-dom react-textarea-autosize
 ```
 npm install @supabase/supabase-js@2.47.7
 ```
+
+- Supabaseのセットアップ
+プロジェクト作成
+
+- Supabaseのライブラリのインストール
+```
+npm install @supabase/supabase-js
+```
+https://supabase.com/docs/reference/javascript/installing
+
+- Supabaseの初期化
+  - Web管理画面のコンソールでSign In / Providers
+  - <a href="./src/lib/supabase.ts">supabase.ts</a>を作成
+
+- ユーザー登録APIをコーディング<a href="./src/modules/auth/auth.repository.ts">auth.repository.ts</a>
+- ユーザー登録APIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signup.tsx">Signup.tsx</a>
+- 質問 async await
+- ログインAPIをコーディング<a href="./src/modules/auth/auth.repository.ts">auth.repository.ts</a>
+
+- ログインAPIをコンポーネントから呼び出す処理をコーディング<a href="./src/pages/Signin.tsx">Signin.tsx</a>
+
+- ログイン情報をグローバールステートに
+
+
+
+
+
+
+
 
 ---
 
