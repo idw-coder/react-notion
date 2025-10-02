@@ -1,5 +1,10 @@
 import { supabase } from "@/lib/supabase";
 
+/*
+* Supabaseクライアントを使用してDB操作
+* noteRepositoryの各メソッドからSupabaseのREST APIへ非同期でリクエストを送信
+*/
+
 export const noteRepository = {
     async create(
         userId: string,
@@ -10,8 +15,8 @@ export const noteRepository = {
             title: params.title,
             parent_document: params.parentId,
         })         // レコードを挿入
-        .select()  // レコードを選択
-        .single(); // レコードを返す
+        .select()  // レコードを選択（インサートしたノートのオブジェクトが一つだけある配列ごと返される）
+        .single(); // 配列からオブジェクトに変換して返す
         if (error != null) throw new Error(error.message);
         return data;
     },

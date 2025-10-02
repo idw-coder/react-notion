@@ -92,7 +92,17 @@ React Routerは、Reactアプリケーションでページ遷移（ルーティ
 
 #### Jotaiの使い方
 
-TODO: 理解
+<a href="./src/modules/notes/note.state.ts">note.state.ts</a>
+
+**useStateとの違い**
+
+| 項目 | `useState` | `useAtom` |
+|------|------------|-----------|
+| **スコープ** | コンポーネント内のみ | アプリケーション全体 |
+| **共有** | 親子間でpropsで渡す | どこからでも直接アクセス |
+| **状態の定義** | コンポーネント内 | 外部で定義可能 |
+| **依存関係** | コンポーネントのライフサイクル<br />コンポーネントと一緒に破棄 | 独立 |
+
 
 ## 手順
 
@@ -153,6 +163,8 @@ npm install jotai
 40. src\components\TitleInput.tsx src\modules\notes\note.repository.ts タイトル更新できるように
 
 41. src\components\TitleInput.tsx src\modules\notes\note.repository.ts タイトル更新できるように
+
+- 質問 SQL全然使用したことないですが、学習優先度は高いですか？MySQL PostgreSQL
 
 
 ---

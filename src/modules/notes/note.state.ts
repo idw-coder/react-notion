@@ -1,6 +1,20 @@
 import { atom, useAtom } from "jotai";
 import { Note } from "./note.entity";
 
+/**
+ * ノートの状態を管理するアトム
+ * @type {Note[]} ノートの配列を格納
+ * @description アプリケーション全体でノートの状態を一元管理
+ * @example
+ * // 初期状態
+ * const notes = []; // 空配列
+ * 
+ * // ノートが追加された状態
+ * const notes = [
+ *   { id: 1, title: "ノート1", content: "内容1" },
+ *   { id: 2, title: "ノート2", content: "内容2" }
+ * ];
+ */
 const noteAtom = atom<Note[]>([]);
 
 export const useNoteStore = () => {

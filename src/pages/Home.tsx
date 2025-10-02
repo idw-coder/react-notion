@@ -13,6 +13,8 @@ export function Home() {
   const createNote = async () => {
     if (!currentUser) return;
     const newNote = await noteRepository.create(currentUser.id, { title });
+
+    // 作成したノートをnoteStoreに追加
     noteStore.set([newNote]);
     setTitle("");
   }
