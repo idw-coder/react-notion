@@ -52,7 +52,7 @@ const NoteDetail = () => {
       <div className="md:max-w-3xl lg:md-max-w-4xl mx-auto">
         <TitleInput 
           initialData={note} 
-          onTitleChange={(title) => updateNote(id, { title })} 
+          onTitleChange={(title) => updateNote(id.toString(), { title })} 
         />
       </div>
     </div>

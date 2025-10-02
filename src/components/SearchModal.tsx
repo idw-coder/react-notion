@@ -7,7 +7,8 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-
+import { Note } from '@/modules/notes/note.entity';
+  
 interface SearchModalProps {
   isOpen: boolean;
   notes: Note[];
@@ -33,10 +34,10 @@ export function SearchModal({
             {notes?.map((note) => (
               <CommandItem
                 key={note.id}
-                title={note.displayTitle}
+                title={note.title ?? '無題'}
                 onSelect={() => onItemSelect(note.id)}
               >
-                <span>{note.displayTitle}</span>
+                <span>{note.title ?? '無題'}</span>
               </CommandItem>
             ))}
           </CommandGroup>
