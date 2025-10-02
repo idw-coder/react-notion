@@ -104,6 +104,14 @@ React Routerは、Reactアプリケーションでページ遷移（ルーティ
 | **依存関係** | コンポーネントのライフサイクル<br />コンポーネントと一緒に破棄 | 独立 |
 
 
+### GitHub Pagesデプロイ手順
+
+1. `.github/workflows/deploy.yml`を作成済み
+2. Settings → Pages → Source を「GitHub Actions」に設定
+3. GitHub Secrets に`VITE_SUPABASE_URL`と`VITE_SUPABASE_API_KEY`を登録
+4. `main`または`dev`ブランチにpushすると自動デプロイ
+5. デプロイURL: https://idw-coder.github.io/react-notion/
+
 ## 手順
 
 - tsconfig.app.jsonを修正
