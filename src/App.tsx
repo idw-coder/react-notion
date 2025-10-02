@@ -9,6 +9,9 @@ import { useEffect, useState } from "react"
 import { authRepository } from "./modules/auth/auth.repository"
 
 function App() {
+  // GitHub Pagesデプロイのためのbasename
+  const basename = import.meta.env.MODE === 'production' ? '/react-notion/' : '';
+
   const [isLoading, setIsLoading] = useState(true);
   const currentUserStore = useCurrentUserStore();
 
@@ -25,7 +28,7 @@ function App() {
   if (isLoading) return <div />;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <div className="h-full">
         <Routes>
           <Route path="/" element={<Layout />}>
