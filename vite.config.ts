@@ -3,8 +3,8 @@ import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  // base: '/react-notion/',  // 追加
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/react-notion/' : '/',
   plugins: [react()],
   css: {
     postcss: {
@@ -16,4 +16,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-});
+}));
