@@ -178,6 +178,20 @@ npm install jotai
 ```
 npm install @blocknote/core @blocknote/react @blocknote/mantine
 ```
+43. BlockNoteの設定
+
+44. BlockNoteの本文更新処理
+
+45. ノートの詳細ページの遷移をコーディング
+
+46. 検索モーダルの表示
+
+49. Debounce（検索の処理で都度実行されないように）
+```
+npm install use-debounce
+```
+
+50. 検索結果からノート詳細へ遷移
 
 ---
 
