@@ -37,7 +37,7 @@ function Signin() {
                     onChange={(e) => setEmail(e.target.value)}
                     id="email"
                     name="email"
-                    placeholder="1012"
+                    placeholder="test@example.com"
                     required
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"
