@@ -1,10 +1,10 @@
-import { TitleInput } from '@/components/TitleInput';
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { noteRepository } from '@/modules/notes/note.repository';
-import { useCurrentUserStore } from '@/modules/auth/current-user.state';
-import { useNoteStore } from '@/modules/notes/note.state';
-import Editor from '@/components/Editor';
+import { TitleInput } from "@/components/TitleInput";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { noteRepository } from "@/modules/notes/note.repository";
+import { useCurrentUserStore } from "@/modules/auth/current-user.state";
+import { useNoteStore } from "@/modules/notes/note.state";
+import Editor from "@/components/Editor";
 
 const NoteDetail = () => {
   const params = useParams(); // URLのパラメータを取得
@@ -26,11 +26,13 @@ const NoteDetail = () => {
     // supabaseから取得したデータをグローバルストアnoteStoreに設定
     noteStore.set([note]);
     setIsLoading(false);
-  }
+  };
 
   const updateNote = async (
     id: string,
-    note: { title?: string; content?: string } | { title?: string; content?: string }
+    note:
+      | { title?: string; content?: string }
+      | { title?: string; content?: string }
   ) => {
     const updatedNote = await noteRepository.update(id, note);
     if (updatedNote == null) return;
@@ -42,20 +44,21 @@ const NoteDetail = () => {
   if (isLoading) return <div>Loading...</div>;
   if (note == null) {
     setIsLoading(false);
-    return (
-        <div>Note not found</div>
-    )
+    return <div>Note not found</div>;
   }
-  console.log(note);
+  // console.log(note);
 
   return (
     <div className="pb-40 pt-20">
       <div className="md:max-w-3xl lg:md-max-w-4xl mx-auto">
-        <TitleInput 
-          initialData={note} 
-          onTitleChange={(title) => updateNote(id.toString(), { title })} 
+        <TitleInput
+          initialData={note}
+          onTitleChange={(title) => updateNote(id.toString(), { title })}
         />
-        <Editor onChange={(content) => updateNote(id.toString(), { content })} />
+        <Editor
+          initialContent={note.content}
+          onChange={(content) => updateNote(id.toString(), { content })}
+        />
       </div>
     </div>
   );

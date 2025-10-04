@@ -12,13 +12,15 @@ interface EditorProps {
 function Editor({ onChange, initialContent }: EditorProps) {
   const editor = useCreateBlockNote({ 
     dictionary: ja,
+    // リロードしてもSupabaseから取得したデータを保持する
     initialContent: initialContent != null ? JSON.parse(initialContent) : undefined,
   });
   return (
     <div>
       <BlockNoteView
         editor={editor}
-        onChange={() => onChange(JSON.stringify(editor.document, null, 2))}
+        // onChange={() => console.log(editor.document)}
+        onChange={() => onChange(JSON.stringify(editor.document))}
       />
     </div>
   );

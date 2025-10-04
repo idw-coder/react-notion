@@ -4,11 +4,13 @@ import { noteRepository } from '@/modules/notes/note.repository';
 import { useNoteStore } from '@/modules/notes/note.state';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Home() {
   const [title, setTitle] = useState("");
   const { currentUser } = useCurrentUserStore();
   const noteStore = useNoteStore();
+  const navigate = useNavigate();
 
   const createNote = async () => {
     if (!currentUser) return;
@@ -17,6 +19,7 @@ export function Home() {
     // 作成したノートをnoteStoreに追加
     noteStore.set([newNote]);
     setTitle("");
+    navigate(`/notes/${newNote.id}`);
   }
   return (
     <Card className="border-0 shadow-none w-1/2 m-auto">
