@@ -29,6 +29,18 @@ export const noteRepository = {
             : await query.is("parent_document", null);
         return data;
     },
+
+    async findByKeyword(userId: string, keyword: string) {
+        const { data } = await supabase
+        .from("notes")
+        .select()
+        .eq("user_id", userId)
+        // like検索は大文字小文字を区別しない、%は任意の文字列を表す
+        .or(`title.ilike.%${keyword}%,content.ilike.%${keyword}%`)
+        .order("created_at", { ascending: false });
+        return data;
+    },
+
     async findOne(userId: string, id: number) {
         const { data } = await supabase.from('notes').select()
         .eq('id', id)
