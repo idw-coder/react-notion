@@ -174,6 +174,10 @@ npm install jotai
 
 - 質問 SQL全然使用したことないですが、学習優先度は高いですか？MySQL PostgreSQL
 
+42. BlockNoteインストール
+```
+npm install @blocknote/core @blocknote/react @blocknote/mantine
+```
 
 ---
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { noteRepository } from '@/modules/notes/note.repository';
 import { useCurrentUserStore } from '@/modules/auth/current-user.state';
 import { useNoteStore } from '@/modules/notes/note.state';
+import Editor from '@/components/Editor';
 
 const NoteDetail = () => {
   const params = useParams(); // URLのパラメータを取得
@@ -29,7 +30,7 @@ const NoteDetail = () => {
 
   const updateNote = async (
     id: string,
-    note: { title?: string; content?: string }
+    note: { title?: string; content?: string } | { title?: string; content?: string }
   ) => {
     const updatedNote = await noteRepository.update(id, note);
     if (updatedNote == null) return;
@@ -54,6 +55,7 @@ const NoteDetail = () => {
           initialData={note} 
           onTitleChange={(title) => updateNote(id.toString(), { title })} 
         />
+        <Editor onChange={(content) => updateNote(id.toString(), { content })} />
       </div>
     </div>
   );
