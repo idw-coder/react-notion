@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { noteRepository } from './modules/notes/note.repository';
 import { Note } from './modules/notes/note.entity';
 import { useNavigate } from 'react-router-dom';
+import { subscribe, unsubscribe } from './lib/supabase';
 
 const Layout = () => {
 
@@ -16,9 +17,37 @@ const Layout = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<Note[]>([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     fetchNotes();
+
+    // TODO: 理解
+    // ページのロード時にチャンネルを作成
+    const channel = subscribeNote();
+    return () => {
+      // コンポーネントが破棄されるタイミングでチャンネルを破棄
+      unsubscribe(channel!);
+    }
   }, []);
+
+  const subscribeNote = () => {
+    if (currentUser == null) return;
+
+    /**
+     * payloadはSupabaseのリアルタイム機能によって自動的に提供されるオブジェクト
+     * データベースの変更イベント（INSERT、UPDATE、DELETE）に関する情報を含む
+     * - eventType: イベントの種類（'INSERT'、'UPDATE'、'DELETE'など）
+     * - new: 新しいレコードのデータ（INSERTやUPDATEの場合）
+     * - old: 古いレコードのデータ（UPDATEやDELETEの場合）
+     */
+    return subscribe(currentUser!.id, (payload) => {
+      if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+        noteStore.set([payload.new]);
+      } else if (payload.eventType === 'DELETE') {
+        noteStore.delete(payload.old.id!);
+      }
+    });
+  }
 
   const fetchNotes = async () => {
     setIsLoading(true);
