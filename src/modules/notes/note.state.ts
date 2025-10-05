@@ -67,11 +67,13 @@ export const useNoteStore = () => {
     };
 
     const getOne = (id: number) => notes.find((note ) => note.id == id);
+    const clear = () => setNotes([]);
 
     return {
         getAll: () => notes,
         getOne: (id: number) => getOne(id),
         set,
         delete: (id: number) => deleteNote(id),
+        clear,
     };
 };
