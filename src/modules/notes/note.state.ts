@@ -44,11 +44,34 @@ export const useNoteStore = () => {
         });
     }
 
+    // TODO: ここ複雑
+    const deleteNote = (id: number) => {
+        const findChildrenIds = (parentId: number): number[] => {
+
+            // ストアのnotesから親IDがparentIdのノートを取得
+            const childrenIds = notes
+                .filter((note) => note.parent_document === parentId)
+                .map((child) => child.id); // 子ノートのID配列を取得
+
+            // concat() は配列を結合して新しい配列を作るメソッド
+            return childrenIds.concat(
+                ...childrenIds.map((childId) => findChildrenIds(childId))
+            )
+        }
+        const childrenIds = findChildrenIds(id);
+
+        setNotes((oldNotes) =>
+            // 引数のidと一致するノートと、その子ノートを除外した配列を返す
+            oldNotes.filter((note) => ![id, ...childrenIds].includes(note.id))
+        );
+    };
+
     const getOne = (id: number) => notes.find((note ) => note.id == id);
 
     return {
         getAll: () => notes,
         getOne: (id: number) => getOne(id),
         set,
+        delete: (id: number) => deleteNote(id),
     };
 };

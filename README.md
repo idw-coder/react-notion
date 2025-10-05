@@ -193,6 +193,30 @@ npm install use-debounce
 
 50. 検索結果からノート詳細へ遷移
 
+52. 子ノートも削除するSQLをSupabaseに登録
+
+53. グローバルステートの削除
+
+```sql
+create or replace function delete_children_notes_recursively(note_id INTEGER)
+returns setof notes
+language sql
+as $$
+  WITH RECURSIVE r AS (
+        SELECT * FROM notes WHERE id = $1
+      UNION ALL
+        SELECT notes.* FROM notes, r WHERE notes.parent_document = r.id
+  )
+  DELETE FROM notes WHERE id IN (SELECT id FROM r) RETURNING *;
+$$;
+
+
+
+
+```
+
+
+
 ---
 
 ## React + TypeScript + Vite
