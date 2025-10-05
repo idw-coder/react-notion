@@ -195,8 +195,6 @@ npm install use-debounce
 
 52. 子ノートも削除するSQLをSupabaseに登録
 
-53. グローバルステートの削除
-
 ```sql
 create or replace function delete_children_notes_recursively(note_id INTEGER)
 returns setof notes
@@ -209,10 +207,26 @@ as $$
   )
   DELETE FROM notes WHERE id IN (SELECT id FROM r) RETURNING *;
 $$;
+```
+
+53. グローバルステートの削除
+
+54. Supabaseのリアルタイム通信の設定
+- Supabaseウェブコンソール画面ダッシュボードメニューから
+Database→Tables→Edit table→Enable Realtimeにチェックを入れてsave
+
+- SQL Editorに下記のコードを張り付け実行
+
+```sql
+ALTER TABLE notes REPLICA IDENTITY FULL
+```
+
+55. リアルタイム通信処理コール
 
 
-
-
+ブラウザで2タブで開き削除した際もう一方のタブで下記エラー
+```
+Uncaught Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
 ```
 
 
