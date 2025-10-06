@@ -9,8 +9,8 @@ import { useEffect, useState } from "react"
 import { authRepository } from "./modules/auth/auth.repository"
 
 function App() {
-  // GitHub Pagesデプロイのためのbasename
-  const basename = import.meta.env.MODE === 'production' ? '/react-notion/' : '';
+  // GitHub Pagesデプロイのためのbasename → Viteのconfig.tsで設定
+  const basename = import.meta.env.BASE_URL;
 
   const [isLoading, setIsLoading] = useState(true);
   const currentUserStore = useCurrentUserStore();
