@@ -57,7 +57,7 @@ function Signin() {
                     })}
                     id="email"
                     // name="email" nameはreact-hook-formで自動的に追加される
-                    placeholder="test@example.com"
+                    placeholder="1014@example.com"
                     // required requiredはreact-hook-formで自動的に追加される
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"
@@ -87,7 +87,7 @@ function Signin() {
                     })}
                     id="password"
                     // name="password" nameはreact-hook-formで自動的に追加される
-                    placeholder="pass123"
+                    placeholder="Pass1014"
                     // required requiredはreact-hook-formで自動的に追加される
                     type="password"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"

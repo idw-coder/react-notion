@@ -1,4 +1,9 @@
-﻿export type Json =
+﻿// Supabase のスキーマから生成された型定義。
+// アプリ全体で型安全に DB を操作するための「単一情報源」です。
+// - createClient<Database>() に渡すことでクエリが型安全になります
+// - Database["public"]["Tables"]["<table>"]["Row" | "Insert" | "Update"] を参照して正しい型を得られます
+// - RPC（Functions）の引数・戻り値も型で保証されます
+export type Json =
   | string
   | number
   | boolean
@@ -14,6 +19,7 @@ export type Database = {
   }
   public: {
     Tables: {
+      // ノートテーブル。本文・タイトル・親ノートなどを保持します
       notes: {
         Row: {
           content: string | null
@@ -23,6 +29,7 @@ export type Database = {
           title: string | null
           user_id: string
         }
+        // INSERT 時に利用する型。DB 側で自動設定される項目は省略可
         Insert: {
           content?: string | null
           created_at?: string
@@ -31,6 +38,7 @@ export type Database = {
           title?: string | null
           user_id: string
         }
+        // UPDATE 時に利用する型。部分更新を想定してすべて任意
         Update: {
           content?: string | null
           created_at?: string
@@ -41,14 +49,39 @@ export type Database = {
         }
         Relationships: []
       }
+      // プロフィールテーブル。ユーザーのアバター URL などを保持します
+      profiles: {
+        Row: {
+          id: string
+          avatar_url: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
-    // Supabaseの関数を追加
+    // Supabase の RPC（ストアドファンクション）定義
+    // - 呼び出し時の引数/戻り値の型が保証されます
     Functions: {
       delete_children_notes_recursively: {
+        // 呼び出し時の引数
         Args: { note_id: number }
+        // 戻り値（削除されたノートの配列を返す想定）
         Returns: {
           content: string | null
           created_at: string
@@ -68,8 +101,10 @@ export type Database = {
   }
 }
 
+// 内部フィールドを除いたユーティリティ用の型
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
+// 既定スキーマ（public）を取り出す補助型
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
