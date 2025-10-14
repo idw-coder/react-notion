@@ -1,16 +1,30 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { authRepository } from '@/modules/auth/auth.repository';
 import { useCurrentUserStore } from '@/modules/auth/current-user.state';
 import { Navigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
+// フォーム型の定義
+type SignInFormData = {
+  email: string;
+  password: string;
+}
 
 function Signin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid, isSubmitting, errors }
+  } = useForm<SignInFormData>({
+    mode: "onBlur", // フォーカスが外れた時にバリデーションを行う
+  });
+
   const currentUserStore = useCurrentUserStore();
 
-  const signin = async () => {
-    const user = await authRepository.signin(email, password);
+  const signin = async (data: SignInFormData) => {
+    const user = await authRepository.signin(data.email, data.password);
     currentUserStore.set(user);
   };
 
@@ -24,7 +38,7 @@ function Signin() {
         </h2>
         <div className="mt-8 w-full max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <div className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit(signin)}>
               <div>
                 <label
                   className="block text-sm font-medium text-gray-700"
@@ -34,14 +48,21 @@ function Signin() {
                 </label>
                 <div className="mt-1">
                   <input
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email", {
+                      required: "メールアドレスは必須です",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "有効なメールアドレスを入力してください"
+                      },
+                    })}
                     id="email"
-                    name="email"
+                    // name="email" nameはreact-hook-formで自動的に追加される
                     placeholder="test@example.com"
-                    required
+                    // required requiredはreact-hook-formで自動的に追加される
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"
                   />
+                  {errors.email && <p className="text-red-500 text-sm font-medium mt-1">{errors.email.message}</p>}
                 </div>
               </div>
               <div>
@@ -53,22 +74,33 @@ function Signin() {
                 </label>
                 <div className="mt-1">
                   <input
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password", {
+                      required: "パスワードは必須です",
+                      minLength: {
+                        value: 8,
+                        message: "パスワードは8文字以上で入力してください"
+                      },
+                      pattern: {
+                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                        message: "パスワードは大文字、小文字、数字を含む必要があります"
+                      }
+                    })}
                     id="password"
-                    name="password"
+                    // name="password" nameはreact-hook-formで自動的に追加される
                     placeholder="pass123"
-                    required
+                    // required requiredはreact-hook-formで自動的に追加される
                     type="password"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"
                   />
+                  {errors.password && <p className="text-red-500 text-sm font-medium mt-1">{errors.password.message}</p>}
                 </div>
               </div>
               <div>
                 <button 
-                disabled={email === "" || password === ""}
-                onClick={signin}
+                disabled={!isValid || isSubmitting}
+                type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring--500 disabled:opacity-50 disabled:cursor-not-allowed">
-                  ログイン
+                  {isSubmitting ? "処理中..." : "ログイン"}
                 </button>
               </div>
               <div className="mt-4 text-center text-sm">
@@ -78,7 +110,7 @@ function Signin() {
                 </Link>
                 から
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
