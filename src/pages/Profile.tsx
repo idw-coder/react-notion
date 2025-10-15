@@ -40,7 +40,7 @@ function Profile() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">プロフィール</h1>
+      <h1 className="text-2xl font-bold mb-6">prof</h1>
       <div className="bg-white p-6 rounded-lg border-2 border-gray-300">
         <div className="flex items-center gap-6">
           <div className="relative">

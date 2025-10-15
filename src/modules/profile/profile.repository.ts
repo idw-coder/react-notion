@@ -1,13 +1,10 @@
 import { supabase } from "@/lib/supabase";
 
-// プロフィール関連のデータアクセスを担うリポジトリ
-// - getProfile: プロフィール1件を取得（存在しない場合は null を返す）
-// - uploadAvatar: ストレージにアバター画像をアップロードし、公開 URL を返す
-// - updateProfile: プロフィールの upsert を行い、更新後のレコードを返す
+// プロフィール関連のデータアクセスのリポジトリ
 export const profileRepository = {
   /**
    * 指定したユーザーのプロフィールを取得します。
-   * - レコードが存在しない場合、PGRST116（No rows）を無視して null を返します。
+   * - レコードが存在しない場合、 null を返します。
    */
   async getProfile(userId: string) {
     const { data, error } = await supabase
@@ -27,11 +24,13 @@ export const profileRepository = {
    */
   async uploadAvatar(userId: string, file: File) {
     const fileExt = file.name.split(".").pop();
-    const fileName = `${userId}-${Date.now()}.${fileExt}`;
+    const fileName = `${userId}.${fileExt}`; // 
 
     const { error: uploadError } = await supabase.storage
       .from("avatars")
-      .upload(fileName, file);
+      .upload(fileName, file, {
+        upsert: true, // ファイルが存在する場合は上書き
+      });
 
     if (uploadError) throw new Error(uploadError.message);
 
