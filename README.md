@@ -318,9 +318,19 @@ TO authenticated
 USING (bucket_id = 'avatars');
 ```
 
+## コードシンタックス
 
 
+パッケージをインストール
+```
+npm install @blocknote/code-block
+```
 
+
+Shikiバンドルファイルを生成
+```
+npx shiki-codegen --langs typescript,javascript,python,html,css --themes light-plus,dark-plus --engine javascript --precompiled ./src/shiki.bundle.ts
+```
 
 
 

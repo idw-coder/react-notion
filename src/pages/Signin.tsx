@@ -3,12 +3,26 @@ import { authRepository } from '@/modules/auth/auth.repository';
 import { useCurrentUserStore } from '@/modules/auth/current-user.state';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
-// フォーム型の定義
-type SignInFormData = {
-  email: string;
-  password: string;
-}
+// Zodスキーマの定義
+const signInSchema = z.object({
+  email: z
+    .string()
+    .nonempty({ message: "メールアドレスは必須です" })
+    .email({ message: "有効なメールアドレスを入力してください" }),
+  password: z
+    .string()
+    .min(8, "パスワードは8文字以上で入力してください")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      "パスワードは大文字、小文字、数字を含む必要があります"
+    ),
+});
+
+// z.inferで自動で型を
+type SignInFormData = z.infer<typeof signInSchema>;
 
 function Signin() {
   // const [email, setEmail] = useState("");
@@ -18,6 +32,7 @@ function Signin() {
     handleSubmit,
     formState: { isValid, isSubmitting, errors }
   } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema), // React hook formとZodを連携
     mode: "onBlur", // フォーカスが外れた時にバリデーションを行う
   });
 
@@ -48,13 +63,7 @@ function Signin() {
                 </label>
                 <div className="mt-1">
                   <input
-                    {...register("email", {
-                      required: "メールアドレスは必須です",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "有効なメールアドレスを入力してください"
-                      },
-                    })}
+                    {...register("email")}
                     id="email"
                     // name="email" nameはreact-hook-formで自動的に追加される
                     placeholder="1014@example.com"
@@ -74,17 +83,7 @@ function Signin() {
                 </label>
                 <div className="mt-1">
                   <input
-                    {...register("password", {
-                      required: "パスワードは必須です",
-                      minLength: {
-                        value: 8,
-                        message: "パスワードは8文字以上で入力してください"
-                      },
-                      pattern: {
-                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                        message: "パスワードは大文字、小文字、数字を含む必要があります"
-                      }
-                    })}
+                    {...register("password")}
                     id="password"
                     // name="password" nameはreact-hook-formで自動的に追加される
                     placeholder="Pass1014"
