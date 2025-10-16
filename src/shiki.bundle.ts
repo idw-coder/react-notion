@@ -20,6 +20,7 @@ type BundledLanguage =
   | 'html'
   | 'css'
   | 'php'
+  | 'mermaid'
 type BundledTheme = 'github-dark'
 type Highlighter = HighlighterGeneric<BundledLanguage, BundledTheme>
 
@@ -33,6 +34,7 @@ const bundledLanguages = {
   html: () => import('@shikijs/langs-precompiled/html'),
   css: () => import('@shikijs/langs-precompiled/css'),
   php: () => import('@shikijs/langs-precompiled/php'),
+  mermaid: () => import('@shikijs/langs-precompiled/mermaid'),
 } as Record<BundledLanguage, DynamicImportLanguageRegistration>
 
 const bundledThemes = {
