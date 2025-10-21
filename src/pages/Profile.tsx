@@ -15,13 +15,20 @@ function Profile() {
     }
   }, [currentUser]);
 
+  /**
+   * プロフィールを取得する
+   */
   const loadProfile = async () => {
     if (!currentUser) return;
     const data = await profileRepository.getProfile(currentUser.id);
     setProfile(data);
   };
 
+  /**
+   * アバター画像をアップロードする
+   */
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // ファイルが選択されていない、またはユーザーがログインしていない場合は処理を中断
     if (!e.target.files || !e.target.files[0] || !currentUser) return;
 
     const file = e.target.files[0];
