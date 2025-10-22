@@ -9,6 +9,7 @@ function Profile() {
   const [profile, setProfile] = useState<ProfileType | null>(null);
   const [uploading, setUploading] = useState(false);
 
+  // currentUserが変化した時にloadProfileをコール
   useEffect(() => {
     if (currentUser) {
       loadProfile();
@@ -32,11 +33,27 @@ function Profile() {
     if (!e.target.files || !e.target.files[0] || !currentUser) return;
 
     const file = e.target.files[0];
+    console.log("[handleFileChange] アップロードするファイル ", file, "ファイル名 ", file.name);
     setUploading(true);
 
     try {
-      const publicUrl = await profileRepository.uploadAvatar(currentUser.id, file);
-      const updatedProfile = await profileRepository.updateProfile(currentUser.id, publicUrl);
+      const publicUrl = await profileRepository.uploadAvatar(
+        currentUser.id,
+        file
+      );
+      // コンポーネントが再レンダリングされるため、キャッシュバスティング用のタイムスタンプを追加
+      const urlWithTimestamp = `${publicUrl}?t=${Date.now()}`;
+
+      /**
+       * @param userId ユーザーID
+       * @param avatarUrl アバターURL
+       * @returns 更新後のプロフィール
+       * @throws エラー
+       */
+      const updatedProfile = await profileRepository.updateProfile(
+        currentUser.id,
+        urlWithTimestamp
+      );
       setProfile(updatedProfile);
     } catch (error) {
       console.error("Upload error:", error);
@@ -53,7 +70,11 @@ function Profile() {
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
               {profile?.avatar_url ? (
-                <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                <img
+                  src={profile.avatar_url}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <span className="text-3xl text-gray-400">
                   {currentUser?.user_metadata?.name?.charAt(0) || "U"}
@@ -72,9 +93,13 @@ function Profile() {
             </label>
           </div>
           <div>
-            <h2 className="text-xl font-semibold">{currentUser?.user_metadata?.name}</h2>
+            <h2 className="text-xl font-semibold">
+              {currentUser?.user_metadata?.name}
+            </h2>
             <p className="text-gray-600">{currentUser?.email}</p>
-            {uploading && <p className="text-sm text-gray-500 mt-2">アップロード中...</p>}
+            {uploading && (
+              <p className="text-sm text-gray-500 mt-2">アップロード中...</p>
+            )}
           </div>
         </div>
       </div>
