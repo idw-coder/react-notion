@@ -1,4 +1,4 @@
-import { ChevronsLeftRight, LogOut } from 'lucide-react';
+import { ChevronsLeftRight, LogOut, User as UserIcon } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +9,7 @@ import {
 import { User } from '@supabase/supabase-js';
 import { FC } from 'react';
 import { Item } from './Item';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   user: User;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const UserItem: FC<Props> = ({ user, signout }) => {
+  const navigate = useNavigate();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -48,6 +50,12 @@ const UserItem: FC<Props> = ({ user, signout }) => {
           </div>
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="w-full cursor-pointer text-muted-foreground"
+          asChild
+        >
+          <Item label="プロフィール" icon={UserIcon} onClick={() => navigate('/profile')} />
+        </DropdownMenuItem>
         <DropdownMenuItem
           className="w-full cursor-pointer text-muted-foreground"
           asChild

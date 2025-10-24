@@ -7,6 +7,7 @@ import SignUp from "@/pages/Signup"
 import { useCurrentUserStore } from "./modules/auth/current-user.state"
 import { useEffect, useState } from "react"
 import { authRepository } from "./modules/auth/auth.repository"
+import Profile from "./pages/Profile"
 
 function App() {
   // GitHub Pagesデプロイのためのbasename → Viteのconfig.tsで設定
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/notes/:id" element={<NoteDetail />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />

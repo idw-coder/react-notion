@@ -229,6 +229,112 @@ ALTER TABLE notes REPLICA IDENTITY FULL
 Uncaught Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
 ```
 
+## ユーザープロフィール機能
+
+1. Supabaseにprofilesテーブルを作成
+Supabase のダッシュボードで以下のSQL
+
+```sql
+-- プロフィールテーブル作成
+CREATE TABLE profiles (
+  id UUID REFERENCES auth.users(id) PRIMARY KEY,
+  avatar_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- RLS（Row Level Security）を有効化
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+-- 自分のプロフィールは読める
+CREATE POLICY "Users can view own profile"
+  ON profiles FOR SELECT
+  USING (auth.uid() = id);
+
+-- 自分のプロフィールは更新できる
+CREATE POLICY "Users can update own profile"
+  ON profiles FOR UPDATE
+  USING (auth.uid() = id);
+
+-- 自分のプロフィールは挿入できる
+CREATE POLICY "Users can insert own profile"
+  ON profiles FOR INSERT
+  WITH CHECK (auth.uid() = id);
+```
+2. Supabaseにavatarsストレージバケットを作成
+
+Supabase ダッシュボードで以下を実行
+
+左メニューの Storage をクリック
+New bucket ボタンをクリック
+以下の設定で作成
+
+Name: avatars
+Public bucket: チェックを入れる（画像を公開アクセス可能にする）
+
+
+Create bucket をクリック
+
+<img src="./docs/createAvatarsStorage.png" width="500" />
+
+3. database.types.ts を更新
+database.types.ts に profiles テーブルの型定義を追加
+
+4. src/modules/profile/profile.entity.ts ファイルを作成
+
+5. src/modules/profile/profile.repository.ts
+
+6. pages/Profile.tsxの作成
+
+7. App.tsx にルートを追加
+
+8. UserItem.tsx にプロフィールリンクを追加
+
+9. avatarsストレージバケットのポリシーを設定
+
+```sql
+-- アップロード許可（シンプル版）
+CREATE POLICY "Authenticated users can upload avatars"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'avatars');
+
+-- 読み取り許可
+CREATE POLICY "Anyone can view avatars"
+ON storage.objects FOR SELECT
+TO public
+USING (bucket_id = 'avatars');
+
+-- 更新許可
+CREATE POLICY "Authenticated users can update avatars"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (bucket_id = 'avatars');
+
+-- 削除許可
+CREATE POLICY "Authenticated users can delete avatars"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (bucket_id = 'avatars');
+```
+
+## コードシンタックス
+
+
+パッケージをインストール
+```
+npm install @blocknote/code-block
+```
+
+
+Shikiバンドルファイルを生成
+```
+npx shiki-codegen --langs typescript,javascript,python,html,css --themes light-plus,dark-plus --engine javascript --precompiled ./src/shiki.bundle.ts
+```
+
+
+
+
 
 
 ---

@@ -4,7 +4,13 @@ import { User } from "@supabase/supabase-js";
 /**
  * ログインしているユーザーの情報を管理する
  * ログインしていない場合はnull
- * ログインしている場合はUserオブジェクト
+ * ログインしている場合はUserオブジェクト、Userオブジェクトのパラメーター下記 ?? 要確認
+ * - id: ユーザーID
+ * - email: メールアドレス
+ * - user_metadata: ユーザーメタデータ
+ * - user_metadata.name: ユーザー名
+ * - user_metadata.avatar_url: ユーザーのアバターURL
+ * - user_metadata.avatar_url_timestamp: ユーザーのアバターURLのタイムスタンプ
  */
 const currentUserAtom = atom<User>();
 
