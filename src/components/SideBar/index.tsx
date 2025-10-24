@@ -8,6 +8,7 @@ import { useCurrentUserStore } from '@/modules/auth/current-user.state';
 import { noteRepository } from '@/modules/notes/note.repository';
 import { useNavigate } from 'react-router-dom'; // ページ遷移を行う
 import { authRepository } from '@/modules/auth/auth.repository';
+import MysqlTest from '@/pages/MysqlTest';
 
 type Props = {
   onSearchButtonClicked: () => void;
@@ -48,6 +49,10 @@ const SideBar: FC<Props> = ({ onSearchButtonClicked }) => {
             <NoteList />
             <Item label="ノートを作成" icon={Plus} onClick={createNote} />
           </div>
+        </div>
+        
+        <div className="mt-4">
+          <MysqlTest />
         </div>
       </aside>
       <div className="absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]"></div>
