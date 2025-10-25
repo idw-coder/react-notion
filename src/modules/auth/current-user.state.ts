@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { User } from "@supabase/supabase-js";
+// import { User } from "@supabase/supabase-js";
 
 /**
  * ログインしているユーザーの情報を管理する
@@ -12,6 +12,12 @@ import { User } from "@supabase/supabase-js";
  * - user_metadata.avatar_url: ユーザーのアバターURL
  * - user_metadata.avatar_url_timestamp: ユーザーのアバターURLのタイムスタンプ
  */
+
+type User = {
+    id: string;
+    email: string;
+    name: string;
+} | undefined;
 const currentUserAtom = atom<User>();
 
 /**
