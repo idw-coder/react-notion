@@ -59,6 +59,12 @@ function Profile() {
       console.error("Upload error:", error);
     } finally {
       setUploading(false);
+      /**
+       * bugfix 
+       * 同じファイルでも再選択可能にするためにinputの値をリセット
+       * リロードすれば問題ないが、つづけてアップロードする場合には必要
+       */
+      e.target.value = '';
     }
   };
 
