@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import SideBar from './components/SideBar';
 import { SearchModal } from './components/SearchModal';
-import { useCurrentUserStore } from './modules/auth/current-user.state';
+import { useCurrentUserStore} from './modules/auth/current-user.state';
 import { useNoteStore } from './modules/notes/note.state';
 import { useState, useEffect } from 'react';
 import { noteRepository } from './modules/notes/note.repository';
@@ -9,16 +9,34 @@ import { Note } from './modules/notes/note.mysql.entity';
 import { useNavigate } from 'react-router-dom';
 // import { subscribe, unsubscribe } from './lib/supabase';
 import { subscribe, unsubscribe } from './lib/note-polling.ts';
+import { authRepository } from './modules/auth/auth.mysql.repository';
 
 const Layout = () => {
 
-  const { currentUser } = useCurrentUserStore();
+  const { currentUser, set: setCurrentUser } = useCurrentUserStore();
   const noteStore = useNoteStore();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<Note[]>([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await authRepository.getCurrentUser();
+        if (user) {
+          setCurrentUser(user);
+        }
+      } catch (error) {
+        console.error('認証チェックエラー:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    checkAuth();
+  }, []);
+
+  // ノート取得
   useEffect(() => {
     if (currentUser == null) {
       console.log('ユーザーが存在しないためノートを取得しない');
@@ -76,6 +94,8 @@ const Layout = () => {
     navigate(`/notes/${noteId}`);
     setIsSearchModalOpen(false);
   }
+
+  if (isLoading) return <div>Loading...</div>;
 
   // Navigateはページ遷移を行うコンポーネント
   // replaceはページ遷移を行うときに、前のページを破棄する

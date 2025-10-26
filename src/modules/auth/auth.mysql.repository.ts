@@ -1,3 +1,5 @@
+import { saveToken, getToken, removeToken, hasToken } from '@/lib/jwt-storage';
+
 const API_URL = 'http://localhost:3000';
 
 export const authRepository = {
@@ -16,6 +18,12 @@ export const authRepository = {
         }
 
         const data = await response.json();
+
+        // JWTトークンを保存
+        if (data.token) {
+            saveToken(data.token);
+        }
+
         return {
             id: data.id,
             email: data.email,
@@ -38,6 +46,12 @@ export const authRepository = {
         }
 
         const data = await response.json();
+
+        // JWTトークンを保存
+        if (data.token) {
+            saveToken(data.token);
+        }
+
         return {
             id: data.id,
             email: data.email,
@@ -46,13 +60,38 @@ export const authRepository = {
     },
 
     async getCurrentUser() {
-        // TODO: セッション管理の実装後に対応
-        return null;
+        // ローカルストレージからJWTトークンを取得
+        const token = getToken();
+
+        if (!token) { return null; }
+
+        // JWTトークン検証リクエスト
+        const response = await fetch(`${API_URL}/auth/verify`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }),
+        });
+
+        if (!response.ok) {
+            // トークンが無効な場合は削除
+            removeToken();
+            return null;
+        }
+
+        const data = await response.json();
+        return {
+            id: data.id,
+            email: data.email,
+            name: data.name,
+        };
     },
 
 
     async signout() {
-        // TODO: セッション管理の実装後に対応
+        // JWTトークンを削除
+        removeToken();
         return true;
     }
 }
