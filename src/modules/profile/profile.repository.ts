@@ -43,12 +43,10 @@ export const profileRepository = {
     let fileName = file.name; // 初期値: 元のファイル名
     let counter = 1;
     // すでに存在するか確認
-    const { data: existing } = await supabase.storage.from("avatars").list("", {
-      search: fileName,
-    });
+    const { data: existing } = await supabase.storage.from("avatars").list("");
 
     // 存在する場合、末尾に (n) を追加、重複している場合はnを追加
-    while (existing.some((f) => f.name === fileName)) {
+    while (existing && existing.some((f) => f.name === fileName)) {
       fileName = `${baseName}(${counter}).${ext}`;
       counter++;
     }
@@ -60,7 +58,7 @@ export const profileRepository = {
 
     if (error) throw new Error(error.message);
 
-    // 4. 公開URLを返す
+    // 公開URLを返す
     const { data } = supabase.storage.from("avatars").getPublicUrl(fileName);
     return data.publicUrl;
   },
