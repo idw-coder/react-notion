@@ -49,9 +49,16 @@ function Signin() {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-extrabold text-gray-900">
-          Notionクローン
-        </h2>
+        <p className="text-3xl font-extrabold text-gray-900">
+          Notion Clone
+        </p>
+        <ul className="text-sm text-gray-500">
+          <li>jwtトークンでセッション管理</li>
+          <li>prismaを使用したデータベース操作</li>
+          <li>カテゴリ、タグ機能</li>
+          <li>Amazon Lightsailにデプロイ</li>
+          <li>Stripe決済完了ユーザーに限定して閲覧可能なページを実装</li>
+        </ul>
         <div className="mt-8 w-full max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={handleSubmit(signin)}>
@@ -67,7 +74,7 @@ function Signin() {
                     {...register("email")}
                     id="email"
                     // name="email" nameはreact-hook-formで自動的に追加される
-                    placeholder="1014@example.com"
+                    placeholder="1024@example.com"
                     // required requiredはreact-hook-formで自動的に追加される
                     type="email"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"
@@ -87,7 +94,7 @@ function Signin() {
                     {...register("password")}
                     id="password"
                     // name="password" nameはreact-hook-formで自動的に追加される
-                    placeholder="Pass1014"
+                    placeholder="Pass1024"
                     // required requiredはreact-hook-formで自動的に追加される
                     type="password"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring--500 focus:border--500 sm:text-sm"
