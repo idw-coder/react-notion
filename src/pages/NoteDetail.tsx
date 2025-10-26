@@ -1,7 +1,8 @@
 import { TitleInput } from "@/components/TitleInput";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { noteRepository } from "@/modules/notes/note.repository";
+// import { noteRepository } from "@/modules/notes/note.repository";
+import { noteRepository } from "@/modules/notes/note.mysql.repository";
 import { useCurrentUserStore } from "@/modules/auth/current-user.state";
 import { useNoteStore } from "@/modules/notes/note.state";
 import Editor from "@/components/Editor";

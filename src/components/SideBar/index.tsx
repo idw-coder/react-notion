@@ -8,7 +8,8 @@ import { useCurrentUserStore } from '@/modules/auth/current-user.state';
 // import { noteRepository } from '@/modules/notes/note.repository';
 import { noteRepository } from '@/modules/notes/note.mysql.repository';
 import { useNavigate } from 'react-router-dom'; // ページ遷移を行う
-import { authRepository } from '@/modules/auth/auth.repository';
+// import { authRepository } from '@/modules/auth/auth.repository';
+import { authRepository } from '@/modules/auth/auth.mysql.repository';
 import MysqlTest from '@/pages/MysqlTest';
 
 type Props = {

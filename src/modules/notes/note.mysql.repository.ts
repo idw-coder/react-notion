@@ -24,12 +24,16 @@ export const noteRepository = {
 
   // Noteの取得
   async find(userId: string, parentDocumentId?: number) {
-    const response = await fetch(`${API_URL}/notes`, {
+    
+    const params = new URLSearchParams({ userId });
+    if (parentDocumentId !== undefined) {
+      params.append('parentDocumentId', String(parentDocumentId));
+    }
+    const response = await fetch(`${API_URL}/notes?${params.toString()}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId, parentDocumentId }),
     });
     if (!response.ok) {
       const error = await response.json();
@@ -45,7 +49,6 @@ export const noteRepository = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId, keyword }),
     });
     if (!response.ok) {
       const error = await response.json();
@@ -61,7 +64,6 @@ export const noteRepository = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId }),
     });
     if (!response.ok) {
       const error = await response.json();

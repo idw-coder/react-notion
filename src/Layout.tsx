@@ -4,7 +4,8 @@ import { SearchModal } from './components/SearchModal';
 import { useCurrentUserStore} from './modules/auth/current-user.state';
 import { useNoteStore } from './modules/notes/note.state';
 import { useState, useEffect } from 'react';
-import { noteRepository } from './modules/notes/note.repository';
+// import { noteRepository } from './modules/notes/note.repository';
+import { noteRepository } from './modules/notes/note.mysql.repository';
 import { Note } from './modules/notes/note.mysql.entity';
 import { useNavigate } from 'react-router-dom';
 // import { subscribe, unsubscribe } from './lib/supabase';
@@ -26,6 +27,7 @@ const Layout = () => {
         const user = await authRepository.getCurrentUser();
         if (user) {
           setCurrentUser(user);
+          console.log('serverUser', user.name, 'checkAuth called');
         }
       } catch (error) {
         console.error('認証チェックエラー:', error);
@@ -43,6 +45,7 @@ const Layout = () => {
       return;
     }
     fetchNotes();
+    console.log('currentUser', currentUser.name, 'fetchNotes');
 
     // TODO: 理解
     // ページのロード時にチャンネルを作成
@@ -51,7 +54,7 @@ const Layout = () => {
       // コンポーネントが破棄されるタイミングでチャンネルを破棄
       unsubscribe(channel!);
     }
-  }, []);
+  }, [currentUser]);
 
   const subscribeNote = () => {
     if (currentUser == null) return;
@@ -76,10 +79,11 @@ const Layout = () => {
     setIsLoading(true);
     const notes = await noteRepository.find(currentUser!.id);
     if (currentUser) {
-      console.log('currentUser', currentUser);
+      console.log('currentUser', currentUser.name, 'fetchNotes called');
     }
     if (notes == null) return;
     noteStore.set(notes);
+    console.log('notes', notes, 'fetchNotes');
     setIsLoading(false);
   }
 
