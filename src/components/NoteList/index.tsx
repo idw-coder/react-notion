@@ -2,8 +2,9 @@ import { cn } from "@/lib/utils";
 import { NoteItem } from "./NoteItem";
 import { useNoteStore } from "@/modules/notes/note.state";
 import { useCurrentUserStore } from "@/modules/auth/current-user.state";
-import { noteRepository } from "@/modules/notes/note.repository";
-import { Note } from "@/modules/notes/note.entity";
+// import { noteRepository } from "@/modules/notes/note.repository";
+import { noteRepository } from "@/modules/notes/note.mysql.repository";
+import { Note } from "@/modules/notes/note.mysql.entity";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // ページ遷移を行う
 

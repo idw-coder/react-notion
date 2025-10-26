@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { Note } from "./note.entity";
+import { Note } from "./note.mysql.entity";
 
 /**
  * ノートの状態を管理するアトム

@@ -58,6 +58,7 @@ function Signin() {
           <li>カテゴリ、タグ機能</li>
           <li>Amazon Lightsailにデプロイ</li>
           <li>Stripe決済完了ユーザーに限定して閲覧可能なページを実装</li>
+          <li>Vitestを用いてコンポーネントテストを軽く実施</li>
         </ul>
         <div className="mt-8 w-full max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">

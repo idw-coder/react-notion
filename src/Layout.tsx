@@ -5,9 +5,10 @@ import { useCurrentUserStore } from './modules/auth/current-user.state';
 import { useNoteStore } from './modules/notes/note.state';
 import { useState, useEffect } from 'react';
 import { noteRepository } from './modules/notes/note.repository';
-import { Note } from './modules/notes/note.entity';
+import { Note } from './modules/notes/note.mysql.entity';
 import { useNavigate } from 'react-router-dom';
-import { subscribe, unsubscribe } from './lib/supabase';
+// import { subscribe, unsubscribe } from './lib/supabase';
+import { subscribe, unsubscribe } from './lib/note-polling.ts';
 
 const Layout = () => {
 
@@ -19,6 +20,10 @@ const Layout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (currentUser == null) {
+      console.log('ユーザーが存在しないためノートを取得しない');
+      return;
+    }
     fetchNotes();
 
     // TODO: 理解
@@ -52,6 +57,9 @@ const Layout = () => {
   const fetchNotes = async () => {
     setIsLoading(true);
     const notes = await noteRepository.find(currentUser!.id);
+    if (currentUser) {
+      console.log('currentUser', currentUser);
+    }
     if (notes == null) return;
     noteStore.set(notes);
     setIsLoading(false);
