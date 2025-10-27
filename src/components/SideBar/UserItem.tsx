@@ -6,10 +6,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User } from '@supabase/supabase-js';
+// import { User } from '@supabase/supabase-js';
 import { FC } from 'react';
 import { Item } from './Item';
 import { useNavigate } from 'react-router-dom';
+
+type User = {
+  id: string;
+  email: string;
+  name: string;
+};
 
 type Props = {
   user: User;
@@ -27,7 +33,7 @@ const UserItem: FC<Props> = ({ user, signout }) => {
         >
           <div className="gap-x-2 flex items-center max-w-[150px]">
             <span className="text-start font-medium line-clamp-1">
-              {/* {user.user_metadata.name} さんのノート */}
+              {user.name} さんのノート
             </span>
           </div>
           <ChevronsLeftRight className="rotate-90 ml-2 text-muted-foreground w-4 h-4" />
@@ -45,7 +51,7 @@ const UserItem: FC<Props> = ({ user, signout }) => {
           </p>
           <div className="flex gap-x-2 items-center">
             <div className="space-y-1">
-              {/* <p className="text-sm line-clamp-1">{user.user_metadata.name}</p> */}
+              <p className="text-sm line-clamp-1">{user.name}</p>
             </div>
           </div>
         </div>

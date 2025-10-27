@@ -24,6 +24,11 @@ const Layout = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+
+        /**
+         * jwtトークンを検証してユーザー情報を取得
+         */
+
         const user = await authRepository.getCurrentUser();
         if (user) {
           setCurrentUser(user);

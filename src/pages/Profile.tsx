@@ -83,7 +83,7 @@ function Profile() {
                 />
               ) : (
                 <span className="text-3xl text-gray-400">
-                  {currentUser?.user_metadata?.name?.charAt(0) || "U"}
+                  {currentUser?.name?.charAt(0)}
                 </span>
               )}
             </div>
@@ -100,7 +100,7 @@ function Profile() {
           </div>
           <div>
             <h2 className="text-xl font-semibold">
-              {currentUser?.user_metadata?.name}
+              {currentUser?.name}
             </h2>
             <p className="text-gray-600">{currentUser?.email}</p>
             {uploading && (
