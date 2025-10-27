@@ -89,7 +89,7 @@ function Editor({ onChange, initialContent }: EditorProps) {
     }),
     // リロードしてもSupabaseから取得したデータを保持する
     initialContent:
-      initialContent != null ? JSON.parse(initialContent) : undefined,
+      initialContent && initialContent.trim() ? JSON.parse(initialContent) : undefined,
   });
 
   // エディタの変更を監視してMermaidコードを抽出

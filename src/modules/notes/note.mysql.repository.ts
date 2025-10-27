@@ -59,7 +59,8 @@ export const noteRepository = {
 
   // Noteの取得
   async findOne(userId: string, id: number) {
-    const response = await fetch(`${API_URL}/notes/${id}`, {
+    const params = new URLSearchParams({ userId });
+    const response = await fetch(`${API_URL}/notes/${id}?${params.toString()}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
