@@ -32,7 +32,7 @@ const NoteDetail = () => {
   const updateNote = async (
     id: string,
     note:
-      | { title?: string; content?: string }
+      | { title?: string; content?: string; tags?: string[] }
       | { title?: string; content?: string }
   ) => {
     const updatedNote = await noteRepository.update(id, note);
@@ -56,6 +56,19 @@ const NoteDetail = () => {
           initialData={note}
           onTitleChange={(title) => updateNote(id.toString(), { title })}
         />
+        {/* タグ入力エリア */}
+<div className="px-4 mb-4">
+  <input
+    type="text"
+    placeholder="タグ（カンマ区切り）"
+    defaultValue={note.tags?.join(', ')}
+    onBlur={(e) => {
+      const tags = e.target.value.split(',').map(t => t.trim()).filter(t => t);
+      updateNote(id.toString(), { tags });
+    }}
+    className="w-full px-3 py-2 border rounded"
+  />
+</div>
         <Editor
           initialContent={note.content}
           onChange={(content) => updateNote(id.toString(), { content })}

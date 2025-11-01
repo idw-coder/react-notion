@@ -1,4 +1,5 @@
-import { Note } from '../modules/notes/note.entity';
+// import { Note } from '../modules/notes/note.entity';
+import { Note } from '@/modules/notes/note.mysql.entity';
 import TextAreaAutoSize from 'react-textarea-autosize';
 import { useState } from 'react';
 

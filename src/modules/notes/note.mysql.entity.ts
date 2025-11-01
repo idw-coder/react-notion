@@ -15,6 +15,7 @@ export type Note = {
   id: number;
   title: string;
   content: string;
+  tags?: string[];
   parent_document: number | null;
   user_id: string;
   created_at: string;

@@ -7,7 +7,8 @@ import {
 import { FileIcon, MoreHorizontal, Plus, Trash, ChevronRight, ChevronDown } from 'lucide-react';
 import { Item } from '../SideBar/Item';
 import { cn } from '@/lib/utils';
-import { Note } from '@/modules/notes/note.entity';
+// import { Note } from '@/modules/notes/note.entity';
+import { Note } from '@/modules/notes/note.mysql.entity';
 import { useState } from 'react';
 
 interface Props {
@@ -88,7 +89,21 @@ export function NoteItem({
         onIconClick={onExpand}
         trailingItem={menu}
         isActive={isHovered || isSelected}
+        tags={note.tags}
       />
+      {/* タグ表示 */}
+      {note.tags && note.tags.length > 0 && (
+        <div className="flex gap-1 mt-1 ml-8 flex-wrap">
+          {note.tags.map((tag, index) => (
+            <span
+              key={index}
+              className="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -56,6 +56,7 @@ function Signin() {
           <li>jwtトークンでセッション管理</li>
           <li>prismaを使用したデータベース操作</li>
           <li>カテゴリ、タグ機能</li>
+          <li>検索</li>
           <li>Amazon Lightsailにデプロイ</li>
           <li>Stripe決済完了ユーザーに限定して閲覧可能なページを実装</li>
           <li>Vitestを用いてコンポーネントテストを軽く実施</li>

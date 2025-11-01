@@ -74,7 +74,7 @@ export const noteRepository = {
   },
 
   // Noteの更新
-  async update(id: string, note: {title?: string; content?: string}) {
+  async update(id: string, note: {title?: string; content?: string; tags?: string[];}) {
     const response = await fetch(`${API_URL}/notes/${id}`, {
       method: 'PUT',
       headers: {
